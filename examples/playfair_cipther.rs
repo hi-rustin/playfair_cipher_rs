@@ -6,11 +6,11 @@
 //! This example is based on the example in the Wikipedia article on the Playfair Cipher.
 //! https://en.wikipedia.org/wiki/Playfair_cipher
 
-use playfair_cipher_rs::PlayfairCipther;
+use playfair_cipher_rs::Playfair;
 fn main() {
     let key = "playfair example";
     let plaintext = "Hide the gold in the tree stump";
-    let playfair_cipher = PlayfairCipther::new(key.to_string());
-    let ciphertext = playfair_cipher.encrypt(plaintext.to_string());
+    let playfair = Playfair::new(key.to_string());
+    let ciphertext = playfair.encrypt(plaintext.to_string());
     println!("Ciphertext: {ciphertext}");
 }
