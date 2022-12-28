@@ -8,9 +8,9 @@
 //! Please see the [Playfair Cipher](https://en.wikipedia.org/wiki/Playfair_cipher) Wikipedia article for more information.
 //! # Examples
 //! ```
-//! use playfair_cipher_rs::PlayfairCipther;
-//! let playfair_cipher = PlayfairCipther::new("playfair example".to_string());
-//! let cipher_text = playfair_cipher.encrypt("Hide the gold in the tree stump".to_string());
+//! use playfair_cipher_rs::Playfair;
+//! let playfair = Playfair::new("playfair example".to_string());
+//! let cipher_text = playfair.encrypt("Hide the gold in the tree stump".to_string());
 //! assert_eq!(cipher_text, "BMODZBXDNABEKUDMUIXMMOUVIF");
 //! ```
 
@@ -34,14 +34,14 @@ const TABLE_SIZE: usize = 5;
 ///    the letters that are in the same row and in the same column as another letter in the same group are cipher text.
 ///
 #[derive(Hash, Eq, PartialEq, Debug)]
-pub struct PlayfairCipther {
+pub struct Playfair {
     /// key is a word or phrase used to create the table.
     key: String,
     // table is a 5 by 5 table containing a key word or phrase.
     table: [[char; TABLE_SIZE]; TABLE_SIZE],
 }
 
-impl fmt::Display for PlayfairCipther {
+impl fmt::Display for Playfair {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "key: {}", self.key)?;
         writeln!(f, "table:")?;
@@ -56,13 +56,13 @@ impl fmt::Display for PlayfairCipther {
     }
 }
 
-impl PlayfairCipther {
-    /// Create a new PlayfairCipther.
+impl Playfair {
+    /// Create a new Playfair.
     /// # Examples
     /// ```
-    /// use playfair_cipher_rs::PlayfairCipther;
-    /// let playfair_cipher = PlayfairCipther::new("playfair example".to_string());
-    /// println!("{}", playfair_cipher);
+    /// use playfair_cipher_rs::Playfair;
+    /// let playfair = Playfair::new("playfair example".to_string());
+    /// println!("{}", playfair);
     /// ```
     pub fn new(key: String) -> Self {
         Self {
@@ -74,9 +74,9 @@ impl PlayfairCipther {
     /// Encrypt a plaintext.
     /// # Examples
     /// ```
-    /// use playfair_cipher_rs::PlayfairCipther;
-    /// let playfair_cipher = PlayfairCipther::new("playfair example".to_string());
-    /// let cipher_text = playfair_cipher.encrypt("Hide the gold in the tree stump".to_string());
+    /// use playfair_cipher_rs::Playfair;
+    /// let playfair = Playfair::new("playfair example".to_string());
+    /// let cipher_text = playfair.encrypt("Hide the gold in the tree stump".to_string());
     /// assert_eq!(cipher_text, "BMODZBXDNABEKUDMUIXMMOUVIF");
     /// ```
     pub fn encrypt(&self, plain_text: String) -> String {
@@ -104,9 +104,9 @@ impl PlayfairCipther {
     /// Decrypt a ciphertext.
     /// # Examples
     /// ```
-    /// use playfair_cipher_rs::PlayfairCipther;
-    /// let playfair_cipher = PlayfairCipther::new("playfair example".to_string());
-    /// let plain_text = playfair_cipher.decrypt("BMODZBXDNABEKUDMUIXMMOUVIF".to_string());
+    /// use playfair_cipher_rs::Playfair;
+    /// let playfair = Playfair::new("playfair example".to_string());
+    /// let plain_text = playfair.decrypt("BMODZBXDNABEKUDMUIXMMOUVIF".to_string());
     /// assert_eq!(plain_text, "HIDETHEGOLDINTHETREXESTUMP");
     /// ```
     pub fn decrypt(&self, cipher_text: String) -> String {
@@ -214,7 +214,7 @@ mod tests {
     use super::*;
 
     // Use the example from https://en.wikipedia.org/wiki/Playfair_cipher
-    // to test the PlayfairCipther.
+    // to test the Playfair.
     // The table is:
     // P L A Y F
     // I R E X M
@@ -225,7 +225,7 @@ mod tests {
 
     #[test]
     fn test_display_table() {
-        let playfair = PlayfairCipther::new(TEST_KEY.to_string());
+        let playfair = Playfair::new(TEST_KEY.to_string());
         assert_eq!(
             playfair.to_string(),
             "key: playfair example\ntable:\nP L A Y F \nI R E X M \nB C D G H \nK N O Q S \nT U V W Z \n"
@@ -234,7 +234,7 @@ mod tests {
 
     #[test]
     fn test_create_table() {
-        let table = PlayfairCipther::create_table(TEST_KEY.to_string());
+        let table = Playfair::create_table(TEST_KEY.to_string());
         assert_eq!(table[0][0], 'P');
         assert_eq!(table[0][1], 'L');
         assert_eq!(table[0][2], 'A');
@@ -264,7 +264,7 @@ mod tests {
 
     #[test]
     fn test_get_index() {
-        let playfair = PlayfairCipther::new(TEST_KEY.to_string());
+        let playfair = Playfair::new(TEST_KEY.to_string());
         assert_eq!(playfair.get_index('P'), (0, 0));
         assert_eq!(playfair.get_index('L'), (0, 1));
         assert_eq!(playfair.get_index('A'), (0, 2));
@@ -294,7 +294,7 @@ mod tests {
 
     #[test]
     fn test_encrypt_pair() {
-        let playfair = PlayfairCipther::new(TEST_KEY.to_string());
+        let playfair = Playfair::new(TEST_KEY.to_string());
         assert_eq!(playfair.encrypt_pair('H', 'E'), "DM");
         assert_eq!(playfair.encrypt_pair('P', 'I'), "IB");
         assert_eq!(playfair.encrypt_pair('A', 'B'), "PD");
@@ -303,7 +303,7 @@ mod tests {
 
     #[test]
     fn test_encrypt() {
-        let playfair = PlayfairCipther::new(TEST_KEY.to_string());
+        let playfair = Playfair::new(TEST_KEY.to_string());
         // The example from https://en.wikipedia.org/wiki/Playfair_cipher
         // is "Hide the gold in the tree stump".
         // The result should be "BMODZBXDNABEKUDMUIXMMOUVIF".
@@ -315,7 +315,7 @@ mod tests {
 
     #[test]
     fn test_decrypt_pair() {
-        let playfair = PlayfairCipther::new(TEST_KEY.to_string());
+        let playfair = Playfair::new(TEST_KEY.to_string());
         assert_eq!(playfair.decrypt_pair('D', 'M'), "HE");
         assert_eq!(playfair.decrypt_pair('I', 'B'), "PI");
         assert_eq!(playfair.decrypt_pair('P', 'D'), "AB");
@@ -324,7 +324,7 @@ mod tests {
 
     #[test]
     fn test_decrypt() {
-        let playfair = PlayfairCipther::new(TEST_KEY.to_string());
+        let playfair = Playfair::new(TEST_KEY.to_string());
         // The example from https://en.wikipedia.org/wiki/Playfair_cipher
         // is "Hide the gold in the tree stump".
         // The result should be "BMODZBXDNABEKUDMUIXMMOUVIF".
