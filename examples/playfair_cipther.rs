@@ -12,5 +12,5 @@ fn main() {
     let plaintext = "Hide the gold in the tree stump";
     let playfair_cipher = PlayfairCipther::new(key.to_string());
     let ciphertext = playfair_cipher.encrypt(plaintext.to_string());
-    println!("Ciphertext: {}", ciphertext);
+    println!("Ciphertext: {ciphertext}");
 }

@@ -1,3 +1,19 @@
+//! # playfair_cipher_rs
+//! This crate provides a simple implementation of the Playfair Cipher.
+//! You can use this crate to encrypt and decrypt messages using the Playfair Cipher.
+//! Currently, this crate only supports the English alphabet.
+//! Please note that the Playfair Cipher does not support the letter J.
+//! The letter J is replaced with the letter I.
+//!
+//! Please see the [Playfair Cipher](https://en.wikipedia.org/wiki/Playfair_cipher) Wikipedia article for more information.
+//! # Examples
+//! ```
+//! use playfair_cipher_rs::PlayfairCipther;
+//! let playfair_cipher = PlayfairCipther::new("playfair example".to_string());
+//! let cipher_text = playfair_cipher.encrypt("Hide the gold in the tree stump".to_string());
+//! assert_eq!(cipher_text, "BMODZBXDNABEKUDMUIXMMOUVIF");
+//! ```
+
 use std::fmt;
 
 // ALPHABET is a string containing all the letters of the English alphabet except J.
